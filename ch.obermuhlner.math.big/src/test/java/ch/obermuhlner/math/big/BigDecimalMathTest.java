@@ -765,13 +765,21 @@ public class BigDecimalMathTest {
 
     @Test(expected = ArithmeticException.class)
 	public void testPowOverflow() {
-		BigDecimalMath.pow(new BigDecimal("123"), new BigDecimal("1E20"), MC);
+		BigDecimal pow = BigDecimalMath.pow(new BigDecimal("123"), new BigDecimal("1E20"), MC);
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
 	public void testPowUnlimitedFail() {
 		BigDecimalMath.pow(BigDecimal.valueOf(1.2), BigDecimal.valueOf(1.1), MathContext.UNLIMITED);
 	}
+	
+	@Test 
+	public void testPowLargeNegative() {
+		BigDecimal pow = BigDecimalMath.pow(new BigDecimal("200"), new BigDecimal("-200"), new MathContext(6));
+		System.out.println("" + pow);
+		assertBigDecimal(new BigDecimal("6.22302E-461"), pow, new MathContext(3));
+	}
+
 
 	@Test
 	public void testSqrt() {
